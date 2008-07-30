@@ -17,11 +17,13 @@ setup(name='gocept.runner',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-          'decorator',
           'zope.app.twisted',
           'zope.app.wsgi',
           'zope.testing',
       ],
+      extras_require=dict(
+          test=['zope.securitypolicy',
+                'zope.app.testing']),
       entry_points = dict(
         console_scripts =
           ['runexample = gocept.runner.example:example'])

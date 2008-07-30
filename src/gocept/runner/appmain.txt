@@ -1,0 +1,70 @@
+appmain decorator
+=================
+
+Runners are defined with the appmain decorator:
+
+>>> import logging
+>>> import gocept.runner
+>>> work_count = 0
+>>> @gocept.runner.appmain(ticks=0.1)
+... def worker():
+...     logging.getLogger('test').info("Working")
+...     global work_count
+...     work_count += 1
+...     if work_count >= 3:
+...         raise SystemExit(1)
+
+
+The decorated worker takes two arguments now: 
+
+1. The name of an object in the root which will be set as site or None for the
+   root.
+2. The path to a configuration file (zope.conf)
+
+Create a simple zope.conf:
+
+>>> import os.path
+>>> import tempfile
+>>> zodb_path = tempfile.mkdtemp()
+>>> site_zcml = os.path.join(
+...     os.path.dirname(__file__), 'ftesting.zcml')
+>>> fd, zope_conf = tempfile.mkstemp()
+>>> zope_conf_file = os.fdopen(fd, 'w')
+>>> zope_conf_file.write('''\
+... site-definition %s
+... <zodb>
+...   <filestorage>
+...     path %s/Data.fs
+...   </filestorage>
+... </zodb>
+... <accesslog>
+...   <logfile>
+...     path STDOUT
+...   </logfile>
+... </accesslog>
+... <eventlog>
+...   <logfile>
+...     formatter zope.exceptions.log.Formatter
+...     path STDOUT
+...   </logfile>
+... </eventlog>
+... ''' % (site_zcml, zodb_path))
+>>> zope_conf_file.close()
+
+
+So call the worker:
+
+>>> worker(None, zope_conf)
+------
+... INFO test Working
+------
+... INFO test Working
+------
+... INFO test Working
+
+
+Clean up:
+
+>>> import shutil
+>>> shutil.rmtree(zodb_path)
+>>> os.remove(zope_conf)

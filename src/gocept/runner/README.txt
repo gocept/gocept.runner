@@ -44,7 +44,7 @@ True
 ...     print zope.app.component.hooks.getSite()
 ...     raise SystemExit(1)
 >>> gocept.runner.runner.main_loop(getRootFolder(), 0.1, worker)
-<zope.app.folder.folder.Folder object at 0x1f830f0>
+<zope.app.folder.folder.Folder object at 0x...>
 
 
 

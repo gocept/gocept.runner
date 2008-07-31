@@ -60,13 +60,13 @@ def init(appname, configfile):
     """Initialise the Zope environment (without network servers) and return a
     specific root-level object.
     """
+    options = zope.app.twisted.main.load_options(['-C', configfile])
+    zope.app.appsetup.product.setProductConfigurations(options.product_config)
+
     db = zope.app.wsgi.config(
         configfile,
         schemafile=os.path.join(
             os.path.dirname(zope.app.twisted.main.__file__), 'schema.xml'))
-
-    options = zope.app.twisted.main.load_options(['-C', configfile])
-    zope.app.appsetup.product.setProductConfigurations(options.product_config)
 
     root = db.open().root()
     app = root['Application']

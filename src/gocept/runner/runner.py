@@ -2,6 +2,7 @@
 # See also LICENSE.txt
 """Infrastructure for running."""
 
+import logging
 import os
 import time
 
@@ -11,6 +12,9 @@ import zope.app.component.hooks
 import zope.app.twisted.main
 import zope.app.wsgi
 import zope.app.appsetup.product
+
+
+log = logging.getLogger(__name__)
 
 
 def main_loop(app, ticks, worker):

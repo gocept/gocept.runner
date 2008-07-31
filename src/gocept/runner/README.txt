@@ -77,12 +77,19 @@ We have set the attribute ``worker_done`` now:
 
 When the worker produces an error, the transaction is aborted:
 
+>>> work_count = 0
 >>> def worker():
+...     global work_count
+...     work_count += 1
 ...     print "Working"
 ...     site = zope.app.component.hooks.getSite()
-...     site.worker_done = 2
+...     site.worker_done += 1
+...     if work_count < 3:
+...         raise ValueError('hurz')
 ...     raise SystemExit(1)
 >>> gocept.runner.runner.main_loop(getRootFolder(), 0.1, worker)
+Working
+Working
 Working
 
 

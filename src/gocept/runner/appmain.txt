@@ -8,7 +8,10 @@ Runners are defined with the appmain decorator:
 >>> work_count = 0
 >>> @gocept.runner.appmain(ticks=0.1)
 ... def worker():
-...     logging.getLogger('test').info("Working")
+...     import zope.app.appsetup.product
+...     log = logging.getLogger('test')
+...     log.info("Working")
+...     log.info(zope.app.appsetup.product.getProductConfiguration('test'))
 ...     global work_count
 ...     work_count += 1
 ...     if work_count >= 3:
@@ -37,6 +40,9 @@ Create a simple zope.conf:
 ...     path %s/Data.fs
 ...   </filestorage>
 ... </zodb>
+... <product-config test>
+...     foo bar
+... </product-config>
 ... <accesslog>
 ...   <logfile>
 ...     path STDOUT
@@ -58,9 +64,15 @@ So call the worker:
 ------
 ... INFO test Working
 ------
-... INFO test Working
+... INFO test {'foo': 'bar'}
 ------
 ... INFO test Working
+------
+... INFO test {'foo': 'bar'}
+------
+... INFO test Working
+------
+... INFO test {'foo': 'bar'}
 
 
 Clean up:

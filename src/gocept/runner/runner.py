@@ -10,6 +10,7 @@ import transaction
 import zope.app.component.hooks
 import zope.app.twisted.main
 import zope.app.wsgi
+import zope.app.appsetup.product
 
 
 def main_loop(app, ticks, worker):
@@ -63,6 +64,10 @@ def init(appname, configfile):
         configfile,
         schemafile=os.path.join(
             os.path.dirname(zope.app.twisted.main.__file__), 'schema.xml'))
+
+    options = zope.app.twisted.main.load_options(['-C', configfile])
+    zope.app.appsetup.product.setProductConfigurations(options.product_config)
+
     root = db.open().root()
     app = root['Application']
     if appname is not None:

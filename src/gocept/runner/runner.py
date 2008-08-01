@@ -8,53 +8,103 @@ import time
 
 import ZODB.POSException
 import transaction
+import zope.app.appsetup.product
+import zope.app.security.interfaces
 import zope.app.component.hooks
 import zope.app.twisted.main
 import zope.app.wsgi
-import zope.app.appsetup.product
+import zope.security.management
+import zope.security.testing
+import zope.publisher.base
 
 
 log = logging.getLogger(__name__)
 
 
-def main_loop(app, ticks, worker):
-    old_site = zope.app.component.hooks.getSite()
-    zope.app.component.hooks.setSite(app)
-    while True:
-        transaction.begin()
-        try:
-            sleep = worker()
-        except (KeyboardInterrupt, SystemExit):
-            transaction.abort()
-            break
-        except Exception, e:
-            log.exception(e)
-            transaction.abort()
+class RunnerRequest(zope.publisher.base.BaseRequest):
+    """A custom publisher request for the runner."""
+
+    def __init__(self, *args):
+        super(RunnerRequest, self).__init__(None, {}, positional=args)
+
+
+class MainLoop(object):
+
+    def __init__(self, app, ticks, worker, principal=None):
+        self.app = app
+        self.ticks = ticks
+        self.worker = worker
+        if principal is None:
+            self.interaction = False
         else:
+            self.interaction = True
+            self.principal_id = principal
+
+
+    def __call__(self):
+        old_site = zope.app.component.hooks.getSite()
+        zope.app.component.hooks.setSite(self.app)
+
+        while True:
+            self.begin()
             try:
-                transaction.commit()
-            except ZODB.POSException.ConflictError, e:
+                self.worker()
+            except (KeyboardInterrupt, SystemExit):
+                self.abort()
+                break
+            except Exception, e:
                 log.exception(e)
-                transaction.abort()
-                # Silently ignore this. The next run will be a retry anyways.
+                self.abort()
+            else:
+                try:
+                    self.commit()
+                except ZODB.POSException.ConflictError, e:
+                    log.exception(e)
+                    self.abort()
+                    # Silently ignore this. The next run will be a retry anyways.
 
-        time.sleep(ticks)
+            time.sleep(self.ticks)
 
-    zope.app.component.hooks.setSite(old_site)
+        zope.app.component.hooks.setSite(old_site)
+
+    def begin(self):
+        transaction.begin()
+        if self.interaction:
+            request = RunnerRequest()
+            request.setPrincipal(self.principal)
+            zope.security.management.newInteraction(request)
+
+    def abort(self):
+        transaction.abort()
+        if self.interaction:
+            zope.security.management.endInteraction()
+
+    def commit(self):
+        transaction.commit()
+        if self.interaction:
+            zope.security.management.endInteraction()
+
+    @property
+    def principal(self):
+        auth = zope.component.getUtility(
+            zope.app.security.interfaces.IAuthentication)
+        return auth.getPrincipal(self.principal_id)
 
 
 class appmain(object):
     """Decorator to simplify the actual entry point functions for main loops.
     """
 
-    def __init__(self, ticks=1):
+    def __init__(self, ticks=1, principal=None):
         self.ticks = ticks
+        self.principal = principal
 
     def __call__(self, worker_method):
         def configure(appname, configfile):
-            app = init(appname, configfile)
-            main_loop(app, self.ticks, worker_method)
-
+            db, app = init(appname, configfile)
+            MainLoop(app, self.ticks, worker_method,
+                      principal=self.principal)()
+            db.close()
         # Just to make doctests look nice.
         configure.__name__ = worker_method.__name__
         return configure
@@ -76,4 +126,4 @@ def init(appname, configfile):
     app = root['Application']
     if appname is not None:
         app = application[app]
-    return app
+    return db, app

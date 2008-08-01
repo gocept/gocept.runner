@@ -27,7 +27,7 @@ Define a worker function which exits when it is called the 3rd time:
 Call the main loop:
 
 >>> import gocept.runner.runner
->>> gocept.runner.runner.main_loop(getRootFolder(), 0.1, worker)
+>>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
 Working
 Working
 Working
@@ -43,7 +43,7 @@ True
 >>> def worker():
 ...     print zope.app.component.hooks.getSite()
 ...     raise SystemExit(1)
->>> gocept.runner.runner.main_loop(getRootFolder(), 0.1, worker)
+>>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
 <zope.app.folder.folder.Folder object at 0x...>
 
 
@@ -65,7 +65,7 @@ When the worker passes without error a transaction is commited:
 ...         raise SystemExit(1)
 ...     site = zope.app.component.hooks.getSite()
 ...     site.worker_done = 1
->>> gocept.runner.runner.main_loop(getRootFolder(), 0.1, worker)
+>>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
 Working
 Working
 
@@ -87,7 +87,7 @@ When the worker produces an error, the transaction is aborted:
 ...     if work_count < 3:
 ...         raise ValueError('hurz')
 ...     raise SystemExit(1)
->>> gocept.runner.runner.main_loop(getRootFolder(), 0.1, worker)
+>>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
 Working
 Working
 Working

@@ -75,6 +75,46 @@ So call the worker:
 ... INFO test {'foo': 'bar'}
 
 
+
+Setting the principal
++++++++++++++++++++++
+
+It is also prossible to create a main loop which runs in an interaction:
+
+>>> import zope.security.management
+>>> work_count = 0
+>>> @gocept.runner.appmain(ticks=0.1, principal='zope.mgr')
+... def worker():
+...     global work_count
+...     work_count += 1
+...     if work_count >= 3:
+...         raise SystemExit(1)
+...     log = logging.getLogger('test')
+...     interaction = zope.security.management.getInteraction()
+...     principal = interaction.participations[0].principal
+...     log.info("Working as %s" % principal.id)
+
+
+When we run the worker now, well get everything logged twice because the second
+worker initializes everything again :(
+
+>>> worker(None, zope_conf)
+------
+... INFO test Working as zope.mgr
+------
+... INFO test Working as zope.mgr
+------
+... INFO test Working as zope.mgr
+------
+... INFO test Working as zope.mgr
+
+
+After the worker is run there is no interaction:
+
+>>> zope.security.management.queryInteraction() is None
+True
+
+
 Clean up:
 
 >>> import shutil

@@ -6,5 +6,11 @@
   <securityPolicy
     component="zope.securitypolicy.zopepolicy.ZopeSecurityPolicy" />
 
+  <principal
+    id="zope.mgr"
+    title="Manager"
+    login="zmgr"
+    password="mgrpw" />
+
 </configure>
 

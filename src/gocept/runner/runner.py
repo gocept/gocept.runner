@@ -45,10 +45,12 @@ class MainLoop(object):
         old_site = zope.app.component.hooks.getSite()
         zope.app.component.hooks.setSite(self.app)
 
+        ticks = None
+
         while True:
             self.begin()
             try:
-                self.worker()
+                ticks = self.worker()
             except (KeyboardInterrupt, SystemExit):
                 self.abort()
                 break
@@ -63,7 +65,10 @@ class MainLoop(object):
                     self.abort()
                     # Silently ignore this. The next run will be a retry anyways.
 
-            time.sleep(self.ticks)
+            if ticks is None:
+                ticks = self.ticks
+            log.debug("Sleeping %s seconds" % ticks)
+            time.sleep(ticks)
 
         zope.app.component.hooks.setSite(old_site)
 

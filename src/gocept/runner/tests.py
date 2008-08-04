@@ -14,7 +14,8 @@ runner_layer = zope.app.testing.functional.ZCMLLayer(
 def test_suite():
     suite = unittest.TestSuite()
     test = zope.app.testing.functional.FunctionalDocFileSuite(
-        'README.txt')
+        'README.txt',
+        optionflags=doctest.INTERPRET_FOOTNOTES|doctest.ELLIPSIS)
     test.layer = runner_layer
     suite.addTest(test)
 

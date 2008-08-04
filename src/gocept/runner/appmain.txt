@@ -114,7 +114,6 @@ After the worker is run there is no interaction:
 >>> zope.security.management.queryInteraction() is None
 True
 
-
 Clean up:
 
 >>> import shutil

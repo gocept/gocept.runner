@@ -97,3 +97,59 @@ We still have the attribute ``worker_done`` set to 1:b
 
 >>> getRootFolder().worker_done
 1
+
+
+Controlling sleep time
+++++++++++++++++++++++
+
+The worker function can control the sleep time[#log-handler]_
+
+>>> work_count = 0
+>>> def worker():
+...     global work_count
+...     work_count += 1
+...     new_sleep = work_count * 0.1
+...     if work_count == 3:
+...         print "Will sleep default"
+...         return None
+...     if work_count > 3:
+...         raise SystemExit(1)
+...     print "Will sleep", new_sleep
+...     return new_sleep
+>>> gocept.runner.runner.MainLoop(getRootFolder(), 0.15, worker)()
+Will sleep 0.1
+Will sleep 0.2
+Will sleep default
+
+The real sleep values are in the log:
+
+>>> print log.getvalue(),
+new transaction
+commit
+Sleeping 0.1 seconds
+new transaction
+commit
+Sleeping 0.2 seconds
+new transaction
+commit
+Sleeping 0.15 seconds
+new transaction
+abort
+   
+
+Restore old log handler:
+
+>>> logging.root.removeHandler(log_handler)
+>>> logging.root.setLevel(old_log_level)
+
+
+.. [#log-handler] Register a log handler
+
+    >>> import logging
+    >>> import StringIO
+    >>> log = StringIO.StringIO()
+    >>> log_handler = logging.StreamHandler(log)
+    >>> logging.root.addHandler(log_handler)
+    >>> old_log_level = logging.root.level
+    >>> logging.root.setLevel(logging.DEBUG)
+

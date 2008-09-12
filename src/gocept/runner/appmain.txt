@@ -95,14 +95,30 @@ It is also prossible to create a main loop which runs in an interaction:
 ...     log.info("Working as %s" % principal.id)
 
 
-When we run the worker now, well get everything logged twice because the second
-worker initializes everything again :(
+Create a zope.conf which doesn't set up a logger for stdout but writes to a
+tmpfile. This is necessary as we're running in the same process here:
+
+>>> zope_conf_file = open(zope_conf, 'w')
+>>> zope_conf_file.write('''\
+... site-definition %s
+... <zodb>
+...   <filestorage>
+...     path %s/Data.fs
+...   </filestorage>
+... </zodb>
+... <product-config test>
+...     foo bar
+... </product-config>
+... <accesslog>
+... </accesslog>
+... <eventlog>
+... </eventlog>
+... ''' % (site_zcml, zodb_path))
+>>> zope_conf_file.close()
+
+Call the worker now: 
 
 >>> worker(None, zope_conf)
-------
-... INFO test Working as zope.mgr
-------
-... INFO test Working as zope.mgr
 ------
 ... INFO test Working as zope.mgr
 ------
@@ -113,6 +129,7 @@ After the worker is run there is no interaction:
 
 >>> zope.security.management.queryInteraction() is None
 True
+
 
 Clean up:
 

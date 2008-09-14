@@ -5,6 +5,7 @@
 import logging
 import os
 import time
+import signal
 
 import ZODB.POSException
 import transaction
@@ -31,6 +32,7 @@ class RunnerRequest(zope.publisher.base.BaseRequest):
 class MainLoop(object):
 
     def __init__(self, app, ticks, worker, principal=None):
+        self._is_running = False
         self.app = app
         self.ticks = ticks
         self.worker = worker
@@ -40,14 +42,18 @@ class MainLoop(object):
             self.interaction = True
             self.principal_id = principal
 
+    def stopMainLoop(self, signum, frame):
+        log.info("Received signal %s, terminating." % signum)
+        self._is_running = False
 
     def __call__(self):
         old_site = zope.app.component.hooks.getSite()
         zope.app.component.hooks.setSite(self.app)
 
+        self._is_running = True
         ticks = None
 
-        while True:
+        while self._is_running:
             self.begin()
             try:
                 ticks = self.worker()
@@ -63,7 +69,8 @@ class MainLoop(object):
                 except ZODB.POSException.ConflictError, e:
                     log.exception(e)
                     self.abort()
-                    # Silently ignore this. The next run will be a retry anyways.
+                    # Silently ignore this. The next run will be a retry 
+                    # anyways.
 
             if ticks is None:
                 ticks = self.ticks
@@ -107,8 +114,12 @@ class appmain(object):
     def __call__(self, worker_method):
         def configure(appname, configfile):
             db, app = init(appname, configfile)
-            MainLoop(app, self.ticks, worker_method,
-                      principal=self.principal)()
+            mloop = MainLoop(app, self.ticks, worker_method,
+                             principal=self.principal)
+            # XXX do we want more signal handlers?
+            signal.signal(signal.SIGHUP, mloop.stopMainLoop)
+            signal.signal(signal.SIGTERM, mloop.stopMainLoop)
+            mloop()
             db.close()
         # Just to make doctests look nice.
         configure.__name__ = worker_method.__name__

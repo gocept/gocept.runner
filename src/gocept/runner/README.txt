@@ -44,7 +44,7 @@ True
 ...     print zope.app.component.hooks.getSite()
 ...     raise SystemExit(1)
 >>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
-<zope.app.folder.folder.Folder object at 0x...>
+<zope.site.folder.Folder object at 0x...>
 
 
 
@@ -135,7 +135,7 @@ commit
 Sleeping 0.15 seconds
 new transaction
 abort
-   
+
 
 Restore old log handler:
 

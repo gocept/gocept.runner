@@ -31,11 +31,12 @@ class RunnerRequest(zope.publisher.base.BaseRequest):
 
 class MainLoop(object):
 
-    def __init__(self, app, ticks, worker, principal=None):
+    def __init__(self, app, ticks, worker, principal=None, once=False):
         self._is_running = False
         self.app = app
         self.ticks = ticks
         self.worker = worker
+        self.once = once
         if principal is None:
             self.interaction = False
         else:
@@ -72,10 +73,13 @@ class MainLoop(object):
                     # Silently ignore this. The next run will be a retry 
                     # anyways.
 
-            if ticks is None:
-                ticks = self.ticks
-            log.debug("Sleeping %s seconds" % ticks)
-            time.sleep(ticks)
+            if self.once:
+                self._is_running = False
+            else:
+                if ticks is None:
+                    ticks = self.ticks
+                log.debug("Sleeping %s seconds" % ticks)
+                time.sleep(ticks)
 
         zope.app.component.hooks.setSite(old_site)
 
@@ -110,12 +114,14 @@ class appmain(object):
     def __init__(self, ticks=1, principal=None):
         self.ticks = ticks
         self.principal = principal
+        self.once = False
 
     def __call__(self, worker_method):
         def configure(appname, configfile):
             db, app = init(appname, configfile)
             mloop = MainLoop(app, self.ticks, worker_method,
-                             principal=self.principal)
+                             principal=self.principal,
+                             once=self.once)
             # XXX do we want more signal handlers?
             signal.signal(signal.SIGHUP, mloop.stopMainLoop)
             signal.signal(signal.SIGTERM, mloop.stopMainLoop)
@@ -124,6 +130,12 @@ class appmain(object):
         # Just to make doctests look nice.
         configure.__name__ = worker_method.__name__
         return configure
+
+class once(appmain):
+
+    def __init__(self, principal=None):
+        super(once, self).__init__(principal=principal)
+        self.once = True
 
 
 def init(appname, configfile):

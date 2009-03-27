@@ -21,6 +21,7 @@ def test_suite():
 
     suite.addTest(doctest.DocFileSuite(
         'appmain.txt',
+        'once.txt',
         optionflags=doctest.ELLIPSIS))
 
     return suite

@@ -23,7 +23,8 @@ setup(name='gocept.runner',
       ],
       extras_require=dict(
           test=['zope.securitypolicy',
-                'zope.app.testing']),
+                'zope.app.testing',
+                'zope.app.zcmlfiles']),
       entry_points = dict(
         console_scripts =
           ['runexample = gocept.runner.example:example'])

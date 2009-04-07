@@ -1,11 +1,5 @@
-Runner
-======
-
-The ``gocept.runner`` package allows it to *easily* create small, long running
-scripts which interact with the ZODB. The scripts have the full component
-architecture set up when they're run.
-
-XXX add some "end user" documentation here
+Runner details
+==============
 
 Main loop
 +++++++++

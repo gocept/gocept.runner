@@ -22,6 +22,9 @@ import zope.publisher.base
 log = logging.getLogger(__name__)
 
 
+Exit = object()
+
+
 class RunnerRequest(zope.publisher.base.BaseRequest):
     """A custom publisher request for the runner."""
 
@@ -73,7 +76,7 @@ class MainLoop(object):
                     # Silently ignore this. The next run will be a retry 
                     # anyways.
 
-            if self.once:
+            if self.once or ticks is Exit:
                 self._is_running = False
             else:
                 if ticks is None:

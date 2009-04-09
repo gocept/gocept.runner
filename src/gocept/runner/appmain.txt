@@ -21,7 +21,7 @@ Runners are defined with the appmain decorator:
 ...     global work_count
 ...     work_count += 1
 ...     if work_count >= 3:
-...         raise SystemExit(1)
+...         return gocept.runner.Exit
 
 
 The decorated worker takes two arguments now: 

@@ -130,6 +130,7 @@ Sleeping 0.15 seconds
 new transaction
 abort
 
+[#error-uses-default-sleep-time]_
 
 Restore old log handler:
 
@@ -147,3 +148,49 @@ Restore old log handler:
     >>> old_log_level = logging.root.level
     >>> logging.root.setLevel(logging.DEBUG)
 
+
+.. [#error-uses-default-sleep-time] When an error occours within the worker,
+    the default sleep time will be used:
+
+    >>> log.seek(0)
+    >>> log.truncate()
+    >>> work_count = 0
+    >>> def worker():
+    ...     global work_count
+    ...     work_count += 1
+    ...     if work_count == 1:
+    ...         new_sleep = 0.1
+    ...     elif work_count == 2:
+    ...         print "Failing"
+    ...         raise Exception("Fail!")
+    ...     elif work_count == 3:
+    ...         print "Will sleep default"
+    ...         return None
+    ...     elif work_count > 3:
+    ...         return gocept.runner.Exit
+    ...     print "Will sleep", new_sleep
+    ...     return new_sleep
+    >>> gocept.runner.runner.MainLoop(getRootFolder(), 0.15, worker)()
+    Will sleep 0.1
+    Failing
+    Will sleep default
+
+    The real sleep values are in the log:
+
+    >>> print log.getvalue(),
+    new transaction
+    commit
+    Sleeping 0.1 seconds
+    new transaction
+    Fail!
+    Traceback (most recent call last):
+      ...
+    Exception: Fail!
+    abort
+    Sleeping 0.15 seconds
+    new transaction
+    commit
+    Sleeping 0.15 seconds
+    new transaction
+    commit
+        

@@ -55,9 +55,9 @@ class MainLoop(object):
         zope.app.component.hooks.setSite(self.app)
 
         self._is_running = True
-        ticks = None
 
         while self._is_running:
+            ticks = None
             self.begin()
             try:
                 ticks = self.worker()

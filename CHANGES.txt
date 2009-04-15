@@ -1,6 +1,12 @@
 Changes
 =======
 
+0.3 (unreleased)
+++++++++++++++++
+
+- When a worker fails the default sleep time (instead of the last one) will be
+  used.
+
 0.2 (2009-04-09)
 ++++++++++++++++
 

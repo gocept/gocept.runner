@@ -156,5 +156,5 @@ def init(appname, configfile):
     root = db.open().root()
     app = root['Application']
     if appname is not None:
-        app = application[app]
+        app = app[appname]
     return db, app

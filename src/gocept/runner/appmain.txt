@@ -223,6 +223,18 @@ After the worker is run there is no interaction:
 >>> zope.security.management.queryInteraction() is None
 True
 
+Subsites
+++++++++
+
+It is possible to directly work on sites inside the root. The site must already
+exist of course, otherwise there will be an error:
+
+
+>>> worker('a-site', zope_conf)
+Traceback (most recent call last):
+    ...
+KeyError: 'a-site'
+
 
 Clean up:
 

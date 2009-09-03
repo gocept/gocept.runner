@@ -17,7 +17,8 @@ Runners are defined with the appmain decorator:
 ...     import zope.app.appsetup.product
 ...     log = logging.getLogger('test')
 ...     log.info("Working")
-...     log.info(zope.app.appsetup.product.getProductConfiguration('test'))
+...     log.info(sorted(
+...         zope.app.appsetup.product.getProductConfiguration('test').items()))
 ...     global work_count
 ...     work_count += 1
 ...     if work_count >= 3:
@@ -48,6 +49,7 @@ Create a simple zope.conf:
 ... </zodb>
 ... <product-config test>
 ...     foo bar
+...     test-principal zope.mgr
 ... </product-config>
 ... <accesslog>
 ...   <logfile>
@@ -70,15 +72,15 @@ So call the worker:
 ------
 ... INFO test Working
 ------
-... INFO test {'foo': 'bar'}
+... INFO test [('foo', 'bar'), ('test-principal', 'zope.mgr')]
 ------
 ... INFO test Working
 ------
-... INFO test {'foo': 'bar'}
+... INFO test [('foo', 'bar'), ('test-principal', 'zope.mgr')]
 ------
 ... INFO test Working
 ------
-... INFO test {'foo': 'bar'}
+... INFO test [('foo', 'bar'), ('test-principal', 'zope.mgr')]
 
 
 
@@ -191,7 +193,7 @@ It is also prossible to create a main loop which runs in an interaction:
 >>> worker = gocept.runner.appmain(ticks=0.1, principal=get_principal)(
 ...     interaction_worker)
 
-Call the worker now[#zopeconf-logging-to-temp]_: 
+Call the worker now:
 
 >>> worker(None, zope_conf)
 ------
@@ -205,29 +207,20 @@ After the worker is run there is no interaction:
 >>> zope.security.management.queryInteraction() is None
 True
 
+It's quite common to read the principal from zope.conf. Therefore there is a
+helper which makes this task easier:
 
-.. [#zopeconf-logging-to-temp] 
+>>> work_count = 0
+>>> worker = gocept.runner.appmain(
+...     ticks=0.1,
+...     principal=gocept.runner.from_config('test', 'test-principal'))(
+...     interaction_worker)
+>>> worker(None, zope_conf)
+------
+... INFO test Working as zope.mgr
+------
+... INFO test Working as zope.mgr
 
-    Create a zope.conf which doesn't set up a logger for stdout but writes to a
-    tmpfile. This is necessary as we're running in the same process here:
-
-    >>> zope_conf_file = open(zope_conf, 'w')
-    >>> zope_conf_file.write('''\
-    ... site-definition %s
-    ... <zodb>
-    ...   <filestorage>
-    ...     path %s/Data.fs
-    ...   </filestorage>
-    ... </zodb>
-    ... <product-config test>
-    ...     foo bar
-    ... </product-config>
-    ... <accesslog>
-    ... </accesslog>
-    ... <eventlog>
-    ... </eventlog>
-    ... ''' % (site_zcml, zodb_path))
-    >>> zope_conf_file.close()
 
 .. [#legacy-principal] The principal used to be set directly in the decorator.
     Since the principal is configuration this behaviour is deprecated.

@@ -174,10 +174,12 @@ Setting the principal
 
 It is also prossible to create a main loop which runs in an interaction:
 
+>>> def get_principal():
+...     return 'zope.mgr'
+
 >>> import zope.security.management
 >>> work_count = 0
->>> @gocept.runner.appmain(ticks=0.1, principal='zope.mgr')
-... def worker():
+>>> def interaction_worker():
 ...     global work_count
 ...     work_count += 1
 ...     if work_count >= 3:
@@ -186,30 +188,10 @@ It is also prossible to create a main loop which runs in an interaction:
 ...     interaction = zope.security.management.getInteraction()
 ...     principal = interaction.participations[0].principal
 ...     log.info("Working as %s" % principal.id)
+>>> worker = gocept.runner.appmain(ticks=0.1, principal=get_principal)(
+...     interaction_worker)
 
-
-Create a zope.conf which doesn't set up a logger for stdout but writes to a
-tmpfile. This is necessary as we're running in the same process here:
-
->>> zope_conf_file = open(zope_conf, 'w')
->>> zope_conf_file.write('''\
-... site-definition %s
-... <zodb>
-...   <filestorage>
-...     path %s/Data.fs
-...   </filestorage>
-... </zodb>
-... <product-config test>
-...     foo bar
-... </product-config>
-... <accesslog>
-... </accesslog>
-... <eventlog>
-... </eventlog>
-... ''' % (site_zcml, zodb_path))
->>> zope_conf_file.close()
-
-Call the worker now: 
+Call the worker now[#zopeconf-logging-to-temp]_: 
 
 >>> worker(None, zope_conf)
 ------
@@ -223,12 +205,43 @@ After the worker is run there is no interaction:
 >>> zope.security.management.queryInteraction() is None
 True
 
+
+.. [#zopeconf-logging-to-temp] 
+
+    Create a zope.conf which doesn't set up a logger for stdout but writes to a
+    tmpfile. This is necessary as we're running in the same process here:
+
+    >>> zope_conf_file = open(zope_conf, 'w')
+    >>> zope_conf_file.write('''\
+    ... site-definition %s
+    ... <zodb>
+    ...   <filestorage>
+    ...     path %s/Data.fs
+    ...   </filestorage>
+    ... </zodb>
+    ... <product-config test>
+    ...     foo bar
+    ... </product-config>
+    ... <accesslog>
+    ... </accesslog>
+    ... <eventlog>
+    ... </eventlog>
+    ... ''' % (site_zcml, zodb_path))
+    >>> zope_conf_file.close()
+
+.. [#legacy-principal] The principal used to be set directly in the decorator.
+    Since the principal is configuration this behaviour is deprecated.
+
+    >>> work_count = 0
+    >>> worker = gocept.runner.appmain(ticks=0.1, principal='zope.mgr')(
+    ...     interaction_worker)
+
+
 Subsites
 ++++++++
 
 It is possible to directly work on sites inside the root. The site must already
 exist of course, otherwise there will be an error:
-
 
 >>> worker('a-site', zope_conf)
 Traceback (most recent call last):

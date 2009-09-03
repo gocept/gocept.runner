@@ -1,6 +1,11 @@
 Changes
 =======
 
+0.4 (unreleased)
+++++++++++++++++
+
+- The principal set by appmain/once can be computed by a function now.
+
 0.3.2 (2009-05-21)
 ++++++++++++++++++
 

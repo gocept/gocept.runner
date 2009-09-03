@@ -165,3 +165,13 @@ def init(appname, configfile):
     if appname is not None:
         app = app[appname]
     return db, app
+
+
+def from_config(section, variable):
+    """Return a callable that returns a value from product config."""
+    def get_config():
+        config = zope.app.appsetup.product.getProductConfiguration(section)
+        if config is None:
+            raise KeyError('No such section %s' % section)
+        return config[variable]
+    return get_config

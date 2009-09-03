@@ -119,11 +119,17 @@ class appmain(object):
         self.principal = principal
         self.once = False
 
+    def get_principal(self):
+        if callable(self.principal):
+            return self.principal()
+        # BBB: depcreated:
+        return self.principal
+
     def __call__(self, worker_method):
         def configure(appname, configfile):
             db, app = init(appname, configfile)
             mloop = MainLoop(app, self.ticks, worker_method,
-                             principal=self.principal,
+                             principal=self.get_principal(),
                              once=self.once)
             # XXX do we want more signal handlers?
             signal.signal(signal.SIGHUP, mloop.stopMainLoop)
@@ -133,6 +139,7 @@ class appmain(object):
         # Just to make doctests look nice.
         configure.__name__ = worker_method.__name__
         return configure
+
 
 class once(appmain):
 

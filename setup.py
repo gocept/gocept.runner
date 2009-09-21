@@ -40,7 +40,7 @@ setup(name='gocept.runner',
       namespace_packages=['gocept'],
       install_requires=[
           'setuptools',
-          'zope.app.twisted',
+          'zope.app.server',
           'zope.app.wsgi',
           'zope.testing',
       ],

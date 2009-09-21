@@ -4,7 +4,7 @@ Changes
 0.5 (unreleased)
 ++++++++++++++++
 
-- Nothing changed yet.
+- Does no longer use ``zope.app.twisted`` but ``zope.app.server`` instead.
 
 
 0.4 (2009-09-03)

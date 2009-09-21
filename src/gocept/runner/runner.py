@@ -12,7 +12,7 @@ import transaction
 import zope.app.appsetup.product
 import zope.app.security.interfaces
 import zope.app.component.hooks
-import zope.app.twisted.main
+import zope.app.server.main
 import zope.app.wsgi
 import zope.security.management
 import zope.security.testing
@@ -152,13 +152,13 @@ def init(appname, configfile):
     """Initialise the Zope environment (without network servers) and return a
     specific root-level object.
     """
-    options = zope.app.twisted.main.load_options(['-C', configfile])
+    options = zope.app.server.main.load_options(['-C', configfile])
     zope.app.appsetup.product.setProductConfigurations(options.product_config)
 
     db = zope.app.wsgi.config(
         configfile,
         schemafile=os.path.join(
-            os.path.dirname(zope.app.twisted.main.__file__), 'schema.xml'))
+            os.path.dirname(zope.app.server.main.__file__), 'schema.xml'))
 
     root = db.open().root()
     app = root['Application']

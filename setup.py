@@ -5,7 +5,7 @@ def read(*names):
     return open(os.path.join(os.path.dirname(__file__), *names), 'r').read()
 
 setup(name='gocept.runner',
-      version = '0.5',
+      version = '0.6dev',
       description="Create stand alone programs with full ZCA",
       long_description=(
           read('src', 'gocept', 'runner', 'appmain.txt')

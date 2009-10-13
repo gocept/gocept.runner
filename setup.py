@@ -39,15 +39,24 @@ setup(name='gocept.runner',
       zip_safe=False,
       namespace_packages=['gocept'],
       install_requires=[
+          'ZODB3',
           'setuptools',
+          'transaction',
+          'zope.app.appsetup>=3.6.0',
+          'zope.app.component',
           'zope.app.server',
           'zope.app.wsgi',
+          'zope.publisher',
+          'zope.security',
           'zope.testing',
       ],
       extras_require=dict(
-          test=['zope.securitypolicy',
-                'zope.app.testing',
-                'zope.app.zcmlfiles']),
+          test=[
+              'zope.app.appsetup>=3.6.0',
+              'zope.app.testing',
+              'zope.app.zcmlfiles',
+              'zope.securitypolicy',
+               ]),
       entry_points = dict(
         console_scripts =
           ['runexample = gocept.runner.example:example'])

@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.6 (unreleased)
+0.5.1 (2009-10-13)
 ++++++++++++++++
 
 - Declared dependencies correctly.

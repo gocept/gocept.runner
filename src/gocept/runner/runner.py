@@ -65,13 +65,13 @@ class MainLoop(object):
                 self.abort()
                 break
             except Exception, e:
-                log.exception(e)
+                log.exception(str(e))
                 self.abort()
             else:
                 try:
                     self.commit()
                 except ZODB.POSException.ConflictError, e:
-                    log.exception(e)
+                    log.exception(str(e))
                     self.abort()
                     # Silently ignore this. The next run will be a retry 
                     # anyways.

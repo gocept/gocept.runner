@@ -182,7 +182,7 @@ Restore old log handler:
     commit
     Sleeping 0.1 seconds
     new transaction
-    Fail!
+    Error in worker: Fail!
     Traceback (most recent call last):
       ...
     Exception: Fail!

@@ -4,8 +4,8 @@ Changes
 0.5.3 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
-
+- Use log.error/log.warning instead of log.exception. Conflict errors are
+  logged as warning now, because they are not really a problem.
 
 0.5.2 (2010-04-14)
 ++++++++++++++++++

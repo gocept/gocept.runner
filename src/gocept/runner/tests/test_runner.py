@@ -1,17 +1,9 @@
 # Copyright (c) 2008-2011 gocept gmbh & co. kg
 # See also LICENSE.txt
 
-import doctest
 import gocept.runner
-import os.path
 import unittest
 import zope.app.appsetup.product
-import zope.app.testing.functional
-
-
-runner_layer = zope.app.testing.functional.ZCMLLayer(
-    os.path.join(os.path.dirname(__file__), 'ftesting.zcml'),
-    __name__, 'RunnerLayer', allow_teardown=True)
 
 
 class TestFromConfig(unittest.TestCase):
@@ -38,23 +30,3 @@ class TestFromConfig(unittest.TestCase):
 
     def test_returns_callable(self):
         self.assertTrue(callable(gocept.runner.from_config('baz', 'boink')))
-
-
-flags = doctest.ELLIPSIS
-
-
-def test_suite():
-    suite = unittest.TestSuite()
-    test = zope.app.testing.functional.FunctionalDocFileSuite(
-        'README.txt',
-        optionflags=flags)
-    test.layer = runner_layer
-    suite.addTest(test)
-
-    suite.addTest(doctest.DocFileSuite(
-        'appmain.txt',
-        'once.txt',
-        optionflags=flags))
-    suite.addTest(unittest.makeSuite(TestFromConfig))
-
-    return suite

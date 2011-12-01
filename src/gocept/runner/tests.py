@@ -1,7 +1,7 @@
-# Copyright (c) 2008 gocept gmbh & co. kg
+# Copyright (c) 2008-2011 gocept gmbh & co. kg
 # See also LICENSE.txt
 
-from zope.testing import doctest
+import doctest
 import gocept.runner
 import os.path
 import unittest
@@ -40,7 +40,7 @@ class TestFromConfig(unittest.TestCase):
         self.assertTrue(callable(gocept.runner.from_config('baz', 'boink')))
 
 
-flags = doctest.INTERPRET_FOOTNOTES | doctest.ELLIPSIS
+flags = doctest.ELLIPSIS
 
 
 def test_suite():

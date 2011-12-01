@@ -222,14 +222,6 @@ helper which makes this task easier:
 ... INFO test Working as zope.mgr
 
 
-.. [#legacy-principal] The principal used to be set directly in the decorator.
-    Since the principal is configuration this behaviour is deprecated.
-
-    >>> work_count = 0
-    >>> worker = gocept.runner.appmain(ticks=0.1, principal='zope.mgr')(
-    ...     interaction_worker)
-
-
 Subsites
 ++++++++
 

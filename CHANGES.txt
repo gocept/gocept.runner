@@ -4,7 +4,7 @@ Changes
 0.5.4 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- Use stdlib's doctest instead of zope.testing.
 
 
 0.5.3 (2010-04-14)

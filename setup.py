@@ -5,7 +5,7 @@ def read(*names):
     return open(os.path.join(os.path.dirname(__file__), *names), 'r').read()
 
 setup(name='gocept.runner',
-      version = '0.5.4dev',
+      version = '0.6.0dev',
       description="Create stand alone programs with full ZCA",
       long_description=(
           read('src', 'gocept', 'runner', 'appmain.txt')
@@ -13,6 +13,8 @@ setup(name='gocept.runner',
           + read('src', 'gocept', 'runner', 'once.txt')
           + '\n\n'
           + read('src', 'gocept', 'runner', 'README.txt')
+          + '\n\n'
+          + read('src', 'gocept', 'runner', 'transaction.txt')
           + '\n\n'
           + read('CHANGES.txt')
       ),
@@ -40,6 +42,7 @@ setup(name='gocept.runner',
       namespace_packages=['gocept'],
       install_requires=[
           'ZODB3',
+          'decorator',
           'setuptools',
           'transaction',
           'zope.app.appsetup>=3.6.0',
@@ -52,6 +55,8 @@ setup(name='gocept.runner',
       ],
       extras_require=dict(
           test=[
+              'gocept.testing>=1.1',
+              'mock',
               'zope.app.appsetup>=3.6.0',
               'zope.app.testing',
               'zope.app.zcmlfiles',

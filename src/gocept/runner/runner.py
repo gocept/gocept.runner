@@ -66,7 +66,7 @@ class MainLoop(object):
                 self.abort()
                 break
             except Exception, e:
-                log.error("Error in worker: %s", e, exc_info=True)
+                log.error("Error in worker: %s", repr(e), exc_info=True)
                 self.abort()
             else:
                 try:

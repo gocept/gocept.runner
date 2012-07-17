@@ -4,7 +4,9 @@ Changes
 0.6.1 (unreleased)
 ++++++++++++++++++
 
-- Nothing changed yet.
+- An error message is correctly logged when the worker produces an exception
+  which cannot be represented in us-ascii. This used to cause an exception in
+  the logging module. The cause of those exceptions where quite hard to track.
 
 
 0.6.0 (2011-12-01)

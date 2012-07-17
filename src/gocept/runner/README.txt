@@ -153,7 +153,7 @@ When an error occours within the worker, the default sleep time will be used:
 ...         new_sleep = 0.1
 ...     elif work_count == 2:
 ...         print "Failing"
-...         raise Exception("Fail!")
+...         raise Exception(u"F\xfcil!")
 ...     elif work_count == 3:
 ...         print "Will sleep default"
 ...         return None
@@ -173,10 +173,10 @@ new transaction
 commit
 Sleeping 0.1 seconds
 new transaction
-Error in worker: Fail!
+Error in worker: Exception(u'F\xfcil!',)
 Traceback (most recent call last):
   ...
-Exception: Fail!
+Exception: F\xfcil!
 abort
 Sleeping 0.15 seconds
 new transaction

@@ -1,11 +1,12 @@
 import os.path
 from setuptools import setup, find_packages
 
+
 def read(*names):
     return open(os.path.join(os.path.dirname(__file__), *names), 'r').read()
 
 setup(name='gocept.runner',
-      version='0.6.1dev',
+      version='0.7.0.dev0',
       description="Create stand alone programs with full ZCA",
       long_description=(
           read('src', 'gocept', 'runner', 'appmain.txt')
@@ -49,6 +50,7 @@ setup(name='gocept.runner',
           'zope.app.component',
           'zope.app.server',
           'zope.app.wsgi',
+          'zope.authentication',
           'zope.publisher',
           'zope.security',
           'zope.testing',

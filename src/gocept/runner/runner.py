@@ -1,23 +1,21 @@
-# Copyright (c) 2008 gocept gmbh & co. kg
+# Copyright (c) 2008-2015 gocept gmbh & co. kg
 # See also LICENSE.txt
 """Infrastructure for running."""
 
 from __future__ import absolute_import
+import ZODB.POSException
 import logging
 import os
-import time
 import signal
-
-import ZODB.POSException
+import time
 import transaction
 import zope.app.appsetup.product
-import zope.app.security.interfaces
 import zope.app.component.hooks
 import zope.app.server.main
 import zope.app.wsgi
-import zope.security.management
-import zope.security.testing
+import zope.authentication.interfaces
 import zope.publisher.base
+import zope.security.management
 
 
 log = logging.getLogger(__name__)
@@ -106,7 +104,7 @@ class MainLoop(object):
     @property
     def principal(self):
         auth = zope.component.getUtility(
-            zope.app.security.interfaces.IAuthentication)
+            zope.authentication.interfaces.IAuthentication)
         return auth.getPrincipal(self.principal_id)
 
 

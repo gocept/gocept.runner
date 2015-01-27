@@ -1,12 +1,15 @@
 Changes
 =======
 
-0.6.1 (unreleased)
+0.7.0 (unreleased)
 ++++++++++++++++++
 
 - An error message is correctly logged when the worker produces an exception
   which cannot be represented in us-ascii. This used to cause an exception in
   the logging module. The cause of those exceptions where quite hard to track.
+
+- Removed dependency on zope.app.security which was neither declared nor
+  necessary.
 
 
 0.6.0 (2011-12-01)

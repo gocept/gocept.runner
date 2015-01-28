@@ -1,7 +1,7 @@
 Changes
 =======
 
-0.7.0 (unreleased)
+0.7.0 (2015-01-28)
 ++++++++++++++++++
 
 - An error message is correctly logged when the worker produces an exception

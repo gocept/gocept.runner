@@ -11,6 +11,8 @@ Changes
 - Removed dependency on zope.app.security which was neither declared nor
   necessary.
 
+- Moved project home to <https://bitbucket.org/gocept/gocept.runner/>.
+
 
 0.6.0 (2011-12-01)
 ++++++++++++++++++

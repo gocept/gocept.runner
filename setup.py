@@ -7,7 +7,8 @@ def read(*names):
 
 setup(name='gocept.runner',
       version='0.7.0.dev0',
-      description="Create stand alone programs with full ZCA",
+      description=
+          "Create stand alone programs with full Zope3 runtime environment",
       long_description=(
           read('src', 'gocept', 'runner', 'appmain.txt')
           + '\n\n'
@@ -34,7 +35,7 @@ setup(name='gocept.runner',
       keywords="zope3 mainloop",
       author="gocept gmbh & co. kg",
       author_email="mail@gocept.com",
-      url="",
+      url='https://bitbucket.org/gocept/gocept.runner/',
       license="ZPL 2.1",
       package_dir={'': 'src'},
       packages=find_packages('src'),

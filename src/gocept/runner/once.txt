@@ -6,12 +6,12 @@ architecture. Usually ``zopectl run`` is used for this.
 
 >>> import logging
 >>> import gocept.runner
->>> import zope.app.component.hooks
+>>> import zope.component.hooks
 >>> @gocept.runner.once()
 ... def worker():
 ...     log = logging.getLogger('test')
 ...     log.info("Working.")
-...     site = zope.app.component.hooks.getSite()
+...     site = zope.component.hooks.getSite()
 ...     if hasattr(site, 'store'):
 ...         log.info("Having attribute store.")
 ...     site.store = True

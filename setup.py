@@ -6,7 +6,7 @@ def read(*names):
     return open(os.path.join(os.path.dirname(__file__), *names), 'r').read()
 
 setup(name='gocept.runner',
-      version='1.0',
+      version='1.1.dev0',
       description=
           "Create stand alone programs with full Zope3 runtime environment",
       long_description=(

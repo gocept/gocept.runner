@@ -2,7 +2,7 @@ Multiple commit helper
 ======================
 
 
-Sometimes you have serveral actions and want to commit in between each step.
+Sometimes you have several actions and want to commit in between each step.
 ``gocept.runner`` provides a decorator ``transaction_per_item`` that simplifies
 writing this down, for example::
 

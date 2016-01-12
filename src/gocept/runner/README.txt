@@ -31,11 +31,11 @@ Working
 
 During the loop the site is set:
 
->>> import zope.app.component.hooks
->>> zope.app.component.hooks.getSite() is None
+>>> import zope.component.hooks
+>>> zope.component.hooks.getSite() is None
 True
 >>> def worker():
-...     print zope.app.component.hooks.getSite()
+...     print zope.component.hooks.getSite()
 ...     raise SystemExit(1)
 >>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
 <zope.site.folder.Folder object at 0x...>
@@ -44,7 +44,7 @@ True
 
 After the loop, no site is set again:
 
->>> zope.app.component.hooks.getSite() is None
+>>> zope.component.hooks.getSite() is None
 True
 
 
@@ -57,7 +57,7 @@ When the worker passes without error a transaction is commited:
 ...     work_count += 1
 ...     if work_count >= 2:
 ...         raise SystemExit(1)
-...     site = zope.app.component.hooks.getSite()
+...     site = zope.component.hooks.getSite()
 ...     site.worker_done = 1
 >>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
 Working
@@ -76,7 +76,7 @@ When the worker produces an error, the transaction is aborted:
 ...     global work_count
 ...     work_count += 1
 ...     print "Working"
-...     site = zope.app.component.hooks.getSite()
+...     site = zope.component.hooks.getSite()
 ...     site.worker_done += 1
 ...     if work_count < 3:
 ...         raise ValueError('hurz')

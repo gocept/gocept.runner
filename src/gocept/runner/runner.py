@@ -10,7 +10,7 @@ import signal
 import time
 import transaction
 import zope.app.appsetup.product
-import zope.app.component.hooks
+import zope.component.hooks
 import zope.app.server.main
 import zope.app.wsgi
 import zope.authentication.interfaces
@@ -50,8 +50,8 @@ class MainLoop(object):
         self._is_running = False
 
     def __call__(self):
-        old_site = zope.app.component.hooks.getSite()
-        zope.app.component.hooks.setSite(self.app)
+        old_site = zope.component.hooks.getSite()
+        zope.component.hooks.setSite(self.app)
 
         self._is_running = True
 
@@ -82,7 +82,7 @@ class MainLoop(object):
                 log.debug("Sleeping %s seconds" % ticks)
                 time.sleep(ticks)
 
-        zope.app.component.hooks.setSite(old_site)
+        zope.component.hooks.setSite(old_site)
 
     def begin(self):
         transaction.begin()

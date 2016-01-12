@@ -25,7 +25,7 @@ Runners are defined with the appmain decorator:
 ...         return gocept.runner.Exit
 
 
-The decorated worker takes two arguments now: 
+The decorated worker takes two arguments now:
 
 1. The name of an object in the root which will be set as site or None for the
    root.
@@ -85,7 +85,7 @@ So call the worker:
 
 
 Signals
-+++++++
+-------
 
 The worker-procss can be terminated by SIGTERM and SIGHUP in a sane way. Write
 a script to a temporary file:
@@ -172,7 +172,7 @@ Clean up:
 
 
 Setting the principal
-+++++++++++++++++++++
+---------------------
 
 It is also prossible to create a main loop which runs in an interaction:
 
@@ -223,7 +223,7 @@ helper which makes this task easier:
 
 
 Subsites
-++++++++
+--------
 
 It is possible to directly work on sites inside the root. The site must already
 exist of course, otherwise there will be an error:

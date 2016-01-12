@@ -2,7 +2,7 @@ Runner details
 ==============
 
 Main loop
-+++++++++
+---------
 
 The main loop loops until it encounters a KeyboardInterrupt or a SystemExit
 exception and calls the worker once a second.
@@ -48,7 +48,7 @@ After the loop, no site is set again:
 True
 
 
-When the worker passes without error a transaction is commited:
+When the worker passes without error a transaction is committed:
 
 >>> work_count = 0
 >>> def worker():
@@ -94,7 +94,7 @@ We still have the attribute ``worker_done`` set to 1:b
 
 
 Controlling sleep time
-++++++++++++++++++++++
+----------------------
 
 The worker function can control the sleep time.
 

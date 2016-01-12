@@ -2,19 +2,19 @@ Changes
 =======
 
 0.8.0 (unreleased)
-++++++++++++++++++
+------------------
 
 - No longer depend on ``zope.app.component``.
 
 
 0.7.1 (2015-01-28)
-++++++++++++++++++
+------------------
 
 - Fix faulty release 0.7.0.
 
 
 0.7.0 (2015-01-28)
-++++++++++++++++++
+------------------
 
 - An error message is correctly logged when the worker produces an exception
   which cannot be represented in us-ascii. This used to cause an exception in
@@ -27,26 +27,26 @@ Changes
 
 
 0.6.0 (2011-12-01)
-++++++++++++++++++
+------------------
 
 - Added transaction_per_item decorator.
 - Use stdlib's doctest instead of zope.testing.
 
 
 0.5.3 (2010-04-14)
-++++++++++++++++++
+------------------
 
 - Use log.error/log.warning instead of log.exception. Conflict errors are
   logged as warning now, because they are not really a problem.
 
 0.5.2 (2010-04-14)
-++++++++++++++++++
+------------------
 
 - Convert logged exceptions to str.
 
 
 0.5.1 (2009-10-13)
-++++++++++++++++++
+------------------
 
 - Declared dependencies correctly.
 
@@ -63,12 +63,12 @@ Changes
 - The principal set by appmain/once can be computed by a function now.
 
 0.3.2 (2009-05-21)
-++++++++++++++++++
+------------------
 
 - Fixed handling of subsites in appmain.
 
 0.3.1 (2009-05-21)
-++++++++++++++++++
+------------------
 
 - Declared namespace package.
 

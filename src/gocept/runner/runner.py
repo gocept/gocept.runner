@@ -150,15 +150,9 @@ def init(appname, configfile):
     """Initialise the Zope environment (without network servers) and return a
     specific root-level object.
     """
-    options = zope.app.server.main.load_options(['-C', configfile])
-    zope.app.appsetup.product.setProductConfigurations(options.product_config)
-
-    db = zope.app.wsgi.config(
-        configfile,
-        schemafile=os.path.join(
-            os.path.dirname(zope.app.server.main.__file__), 'schema.xml'))
-
+    db = zope.app.wsgi.config(configfile)
     root = db.open().root()
+    # Not really worth using zope.app.publication.ZopePublication.root_name
     app = root['Application']
     if appname is not None:
         app = app[appname]

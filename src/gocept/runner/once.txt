@@ -36,11 +36,6 @@ Define a Zope environment:
 ... <product-config test>
 ...     foo bar
 ... </product-config>
-... <accesslog>
-...   <logfile>
-...     path STDOUT
-...   </logfile>
-... </accesslog>
 ... <eventlog>
 ...   <logfile>
 ...     formatter zope.exceptions.log.Formatter

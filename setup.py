@@ -10,15 +10,15 @@ setup(name='gocept.runner',
       description=
           "Create stand alone programs with full Zope3 runtime environment",
       long_description=(
-          read('src', 'gocept', 'runner', 'appmain.txt')
+          read('src', 'gocept', 'runner', 'appmain.rst')
           + '\n\n'
-          + read('src', 'gocept', 'runner', 'once.txt')
+          + read('src', 'gocept', 'runner', 'once.rst')
           + '\n\n'
-          + read('src', 'gocept', 'runner', 'README.txt')
+          + read('src', 'gocept', 'runner', 'README.rst')
           + '\n\n'
-          + read('src', 'gocept', 'runner', 'transaction.txt')
+          + read('src', 'gocept', 'runner', 'transaction.rst')
           + '\n\n'
-          + read('CHANGES.txt')
+          + read('CHANGES.rst')
       ),
       # Get strings from http://www.python.org/pypi?%3Aaction=list_classifiers
       classifiers = (

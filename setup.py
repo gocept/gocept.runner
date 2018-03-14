@@ -7,7 +7,7 @@ def read(*names):
 
 setup(
     name='gocept.runner',
-    version='1.1.dev0',
+    version='2.0',
     description="Create stand alone programs with full Zope3 runtime"
                 " environment",
     long_description="\n\n".join([

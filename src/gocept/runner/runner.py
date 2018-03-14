@@ -5,13 +5,11 @@
 from __future__ import absolute_import
 import ZODB.POSException
 import logging
-import os
 import signal
 import time
 import transaction
 import zope.app.appsetup.product
 import zope.component.hooks
-import zope.app.server.main
 import zope.app.wsgi
 import zope.authentication.interfaces
 import zope.publisher.base

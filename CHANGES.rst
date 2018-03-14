@@ -1,12 +1,14 @@
 Changes
 =======
 
-1.1 (unreleased)
+2.0 (unreleased)
 ----------------
 
-- No longer depend on ``zope.app.server``, and no longer superfluously
-  use its ZConfig schema, which superfluously requires an
-  `<accesslog>` section that does not make any sense in our context anyway.
+- Backwards incompatible change: No longer depend on ``zope.app.server``,
+  and no longer superfluously use its `ZConfig` schema, which superfluously
+  requires an `<accesslog>` section that does not make any sense in our context
+  anyway. So `<accesslog>` is no longer allowed in the ZConfing config file
+  used by this package.
 
 
 1.0 (2016-01-12)

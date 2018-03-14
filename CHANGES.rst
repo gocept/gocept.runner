@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.0 (unreleased)
+2.0 (2018-03-14)
 ----------------
 
 - Backwards incompatible change: No longer depend on ``zope.app.server``,

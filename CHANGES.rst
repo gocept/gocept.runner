@@ -6,6 +6,8 @@ Changes
 
 - Nothing changed yet.
 
+- Migrate to Github.
+
 
 2.0 (2018-03-14)
 ----------------

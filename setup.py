@@ -36,7 +36,7 @@ setup(
     keywords="zope3 mainloop",
     author="gocept gmbh & co. kg",
     author_email="mail@gocept.com",
-    url='https://bitbucket.org/gocept/gocept.runner/',
+    url='https://github.com/gocept/gocept.runner',
     license="ZPL 2.1",
     package_dir={'': 'src'},
     packages=find_packages('src'),

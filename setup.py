@@ -7,7 +7,7 @@ def read(*names):
 
 setup(
     name='gocept.runner',
-    version='2.1.dev0',
+    version='2.1.dev0+py3',
     description="Create stand alone programs with full Zope3 runtime"
                 " environment",
     long_description="\n\n".join([
@@ -31,7 +31,8 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 2 :: Only",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
     ),
     keywords="zope3 mainloop",
     author="gocept gmbh & co. kg",

@@ -18,7 +18,7 @@ setup(
         read('src', 'gocept', 'runner', 'transaction.rst'),
         read('CHANGES.rst')
     ]),
-    classifiers=(
+    classifiers=[
         "Topic :: Software Development",
         "Framework :: Zope3",
         "Framework :: Zope :: 3",
@@ -33,7 +33,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
-    ),
+    ],
     keywords="zope3 mainloop",
     author="gocept gmbh & co. kg",
     author_email="mail@gocept.com",

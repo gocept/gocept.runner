@@ -67,7 +67,7 @@ class MainLoop(object):
             else:
                 try:
                     self.commit()
-                except ZODB.POSException.ConflictError, e:
+                except ZODB.POSException.ConflictError:
                     # Ignore silently, the next run will be a retry anyway.
                     log.warning("Conflict error", exc_info=True)
                     self.abort()

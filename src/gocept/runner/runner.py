@@ -61,7 +61,7 @@ class MainLoop(object):
             except (KeyboardInterrupt, SystemExit):
                 self.abort()
                 break
-            except Exception, e:
+            except Exception as e:
                 log.error("Error in worker: %s", repr(e), exc_info=True)
                 self.abort()
             else:

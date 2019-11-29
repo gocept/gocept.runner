@@ -2,12 +2,16 @@ syntax: glob
 
 *.egg-info
 *.pyc
+.coverage*
 .installed.cfg
+.tox
 bin
 build
 develop-eggs
 dist
 doc/_api
 eggs
+include
+lib
 local.cfg
 parts

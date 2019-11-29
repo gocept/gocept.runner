@@ -11,7 +11,7 @@ Define a worker function which exits when it is called the 3rd time:
 
 >>> work_count = 0
 >>> def worker():
-...     print "Working"
+...     print("Working")
 ...     global work_count
 ...     work_count += 1
 ...     if work_count >= 3:
@@ -35,7 +35,7 @@ During the loop the site is set:
 >>> zope.component.hooks.getSite() is None
 True
 >>> def worker():
-...     print zope.component.hooks.getSite()
+...     print(zope.component.hooks.getSite())
 ...     raise SystemExit(1)
 >>> gocept.runner.runner.MainLoop(getRootFolder(), 0.1, worker)()
 <zope.site.folder.Folder object at 0x...>
@@ -52,7 +52,7 @@ When the worker passes without error a transaction is committed:
 
 >>> work_count = 0
 >>> def worker():
-...     print "Working"
+...     print("Working")
 ...     global work_count
 ...     work_count += 1
 ...     if work_count >= 2:
@@ -75,7 +75,7 @@ When the worker produces an error, the transaction is aborted:
 >>> def worker():
 ...     global work_count
 ...     work_count += 1
-...     print "Working"
+...     print("Working")
 ...     site = zope.component.hooks.getSite()
 ...     site.worker_done += 1
 ...     if work_count < 3:
@@ -100,9 +100,9 @@ The worker function can control the sleep time.
 
 Register a log handler so we can observe this:
 
+>>> from six import StringIO
 >>> import logging
->>> import StringIO
->>> log = StringIO.StringIO()
+>>> log = StringIO()
 >>> log_handler = logging.StreamHandler(log)
 >>> logging.root.addHandler(log_handler)
 >>> old_log_level = logging.root.level
@@ -115,11 +115,11 @@ Register a log handler so we can observe this:
 ...     work_count += 1
 ...     new_sleep = work_count * 0.1
 ...     if work_count == 3:
-...         print "Will sleep default"
+...         print("Will sleep default")
 ...         return None
 ...     if work_count > 3:
 ...         raise SystemExit(1)
-...     print "Will sleep", new_sleep
+...     print("Will sleep %s" % new_sleep)
 ...     return new_sleep
 >>> gocept.runner.runner.MainLoop(getRootFolder(), 0.15, worker)()
 Will sleep 0.1
@@ -128,7 +128,7 @@ Will sleep default
 
 The real sleep values are in the log:
 
->>> print log.getvalue(),
+>>> print(log.getvalue())
 new transaction
 commit
 Sleeping 0.1 seconds
@@ -139,12 +139,12 @@ new transaction
 commit
 Sleeping 0.15 seconds
 new transaction
-abort
+abort...
 
 When an error occours within the worker, the default sleep time will be used:
 
->>> log.seek(0)
->>> log.truncate()
+>>> _ = log.seek(0)
+>>> _ = log.truncate()
 >>> work_count = 0
 >>> def worker():
 ...     global work_count
@@ -152,14 +152,14 @@ When an error occours within the worker, the default sleep time will be used:
 ...     if work_count == 1:
 ...         new_sleep = 0.1
 ...     elif work_count == 2:
-...         print "Failing"
-...         raise Exception(u"F\xfcil!")
+...         print("Failing")
+...         raise Exception("Fail!")
 ...     elif work_count == 3:
-...         print "Will sleep default"
+...         print("Will sleep default")
 ...         return None
 ...     elif work_count > 3:
 ...         return gocept.runner.Exit
-...     print "Will sleep", new_sleep
+...     print("Will sleep %s" % new_sleep)
 ...     return new_sleep
 >>> gocept.runner.runner.MainLoop(getRootFolder(), 0.15, worker)()
 Will sleep 0.1
@@ -168,24 +168,25 @@ Will sleep default
 
 The real sleep values are in the log:
 
->>> print log.getvalue(),
+>>> print(log.getvalue())
 new transaction
 commit
 Sleeping 0.1 seconds
 new transaction
-Error in worker: Exception(u'F\xfcil!',)
+Error in worker: Exception('Fail!'...)
 Traceback (most recent call last):
   ...
-Exception: F\xfcil!
+Exception: Fail!
 abort
 Sleeping 0.15 seconds
 new transaction
 commit
 Sleeping 0.15 seconds
 new transaction
-commit
+commit...
 
 Restore old log handler:
 
 >>> logging.root.removeHandler(log_handler)
+>>> log.close()
 >>> logging.root.setLevel(old_log_level)

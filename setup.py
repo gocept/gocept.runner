@@ -5,6 +5,7 @@ from setuptools import setup, find_packages
 def read(*names):
     return open(os.path.join(os.path.dirname(__file__), *names), 'r').read()
 
+
 setup(
     name='gocept.runner',
     version='2.1.dev0',
@@ -31,7 +32,8 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 2 :: Only",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8"
     ),
     keywords="zope3 mainloop",
     author="gocept gmbh & co. kg",

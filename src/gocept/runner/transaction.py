@@ -16,7 +16,7 @@ def transaction_per_item(func):
     for action in func():
         try:
             action()
-        except Exception, e:
+        except Exception as e:
             log.error("Error in item %s: %s", action, e, exc_info=True)
             transaction.abort()
         else:

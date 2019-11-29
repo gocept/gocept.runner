@@ -26,7 +26,7 @@ Define a Zope environment:
 ...     os.path.dirname(__file__), 'ftesting.zcml')
 >>> fd, zope_conf = tempfile.mkstemp()
 >>> zope_conf_file = os.fdopen(fd, 'w')
->>> zope_conf_file.write('''\
+>>> _ = zope_conf_file.write('''\
 ... site-definition %s
 ... <zodb>
 ...   <filestorage>

@@ -3,6 +3,7 @@
 """Infrastructure for running."""
 
 from __future__ import absolute_import
+import contextlib
 import ZODB.POSException
 import logging
 import signal
@@ -61,13 +62,13 @@ class MainLoop(object):
             except (KeyboardInterrupt, SystemExit):
                 self.abort()
                 break
-            except Exception, e:
+            except Exception as e:
                 log.error("Error in worker: %s", repr(e), exc_info=True)
                 self.abort()
             else:
                 try:
                     self.commit()
-                except ZODB.POSException.ConflictError, e:
+                except ZODB.POSException.ConflictError:
                     # Ignore silently, the next run will be a retry anyway.
                     log.warning("Conflict error", exc_info=True)
                     self.abort()
@@ -123,15 +124,14 @@ class appmain(object):
 
     def __call__(self, worker_method):
         def configure(appname, configfile):
-            db, app = init(appname, configfile)
-            mloop = MainLoop(app, self.ticks, worker_method,
-                             principal=self.get_principal(),
-                             once=self.once)
-            # XXX do we want more signal handlers?
-            signal.signal(signal.SIGHUP, mloop.stopMainLoop)
-            signal.signal(signal.SIGTERM, mloop.stopMainLoop)
-            mloop()
-            db.close()
+            with init(appname, configfile) as app:
+                mloop = MainLoop(app, self.ticks, worker_method,
+                                 principal=self.get_principal(),
+                                 once=self.once)
+                # XXX do we want more signal handlers?
+                signal.signal(signal.SIGHUP, mloop.stopMainLoop)
+                signal.signal(signal.SIGTERM, mloop.stopMainLoop)
+                mloop()
         # Just to make doctests look nice.
         configure.__name__ = worker_method.__name__
         return configure
@@ -144,6 +144,7 @@ class once(appmain):
         self.once = True
 
 
+@contextlib.contextmanager
 def init(appname, configfile):
     """Initialise the Zope environment (without network servers) and return a
     specific root-level object.
@@ -151,10 +152,13 @@ def init(appname, configfile):
     db = zope.app.wsgi.config(configfile)
     root = db.open().root()
     # Not really worth using zope.app.publication.ZopePublication.root_name
-    app = root['Application']
-    if appname is not None:
-        app = app[appname]
-    return db, app
+    try:
+        app = root['Application']
+        if appname is not None:
+            app = app[appname]
+        yield app
+    finally:
+        db.close()
 
 
 def from_config(section, variable):

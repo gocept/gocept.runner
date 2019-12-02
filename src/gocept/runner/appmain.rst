@@ -38,7 +38,7 @@ Create a simple zope.conf:
 ...     os.path.dirname(__file__), 'ftesting.zcml')
 >>> fd, zope_conf = tempfile.mkstemp()
 >>> zope_conf_file = os.fdopen(fd, 'w')
->>> zope_conf_file.write('''\
+>>> _ = zope_conf_file.write('''\
 ... site-definition %s
 ... <zodb>
 ...   <filestorage>
@@ -89,7 +89,7 @@ a script to a temporary file:
 >>> fd, script_name = tempfile.mkstemp(suffix='.py')
 >>> exchange_fd, exchange_file_name = tempfile.mkstemp()
 >>> script = os.fdopen(fd, 'w')
->>> script.write("""\
+>>> _ = script.write("""\
 ... import sys
 ... sys.path[0:0] = %s
 ... sys.path.insert(0, '%s')
@@ -110,18 +110,26 @@ a script to a temporary file:
 Call the script and wait for it to produce some output:
 
 >>> import signal
+>>> import six
 >>> import subprocess
 >>> import time
 >>> exchange = os.fdopen(exchange_fd, 'r+')
->>> proc = subprocess.Popen(
-...     [sys.executable, script_name],
-...     stdout=subprocess.PIPE)
+>>> if six.PY2:
+...     proc = subprocess.Popen(
+...         [sys.executable, script_name],
+...         stdout=subprocess.PIPE)
+... else:
+...     proc = subprocess.Popen(
+...         [sys.executable, script_name],
+...         stdout=subprocess.PIPE,
+...         text=True)
 >>> while not exchange.read():
 ...     time.sleep(0.1)
-...     exchange.seek(0, 0)
->>> exchange.seek(0, 0)
->>> print exchange.read(),
-Working.
+...     _ = exchange.seek(0, 0)
+>>> _ = exchange.seek(0, 0)
+>>> print(exchange.read())
+Working...
+
 
 Okay, now kill it:
 
@@ -131,35 +139,39 @@ Wait for the process to really finish and get the output. The runner logs that
 it was terminated:
 
 >>> stdout, stderr = proc.communicate()
->>> print stdout,
-------
-... INFO gocept.runner.runner Received signal 15, terminating.
+>>> print(stdout)
+------...INFO gocept.runner.runner Received signal 15, terminating...
 
 
 This also works with SIGHUP:
 
->>> exchange.truncate(0)
->>> proc = subprocess.Popen(
-...     [sys.executable, script_name],
-...     stdout=subprocess.PIPE)
+>>> _ = exchange.truncate(0)
+>>> if six.PY2:
+...     proc = subprocess.Popen(
+...         [sys.executable, script_name],
+...         stdout=subprocess.PIPE)
+... else:
+...     proc = subprocess.Popen(
+...         [sys.executable, script_name],
+...         stdout=subprocess.PIPE,
+...         text=True)
 >>> while not exchange.read():
 ...     time.sleep(0.1)
-...     exchange.seek(0, 0)
->>> exchange.seek(0, 0)
->>> print exchange.read(),
-Working.
+...     _ = exchange.seek(0, 0)
+>>> _ = exchange.seek(0, 0)
+>>> print(exchange.read())
+Working...
 
 Okay, now kill it:
 
 >>> os.kill(proc.pid, signal.SIGHUP)
 >>> stdout, stderr = proc.communicate()
->>> print stdout,
-------
-... INFO gocept.runner.runner Received signal 1, terminating.
+>>> print(stdout)
+------...INFO gocept.runner.runner Received signal 1, terminating...
 
 
 Clean up:
-
+>>> exchange.close()
 >>> os.remove(script_name)
 >>> os.remove(exchange_file_name)
 

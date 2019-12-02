@@ -4,7 +4,7 @@ Changes
 2.1 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add support for Python 3.7 and 3.8.
 
 - Migrate to Github.
 

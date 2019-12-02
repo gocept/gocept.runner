@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.1 (unreleased)
+2.1 (2019-12-02)
 ----------------
 
 - Add support for Python 3.7 and 3.8.

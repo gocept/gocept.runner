@@ -47,7 +47,7 @@ setup(
     zip_safe=False,
     namespace_packages=['gocept'],
     install_requires=[
-        'ZODB3',
+        'ZODB',
         'decorator',
         'setuptools',
         'transaction',

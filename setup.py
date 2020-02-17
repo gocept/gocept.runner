@@ -19,7 +19,7 @@ setup(
         read('src', 'gocept', 'runner', 'transaction.rst'),
         read('CHANGES.rst')
     ]),
-    classifiers=(
+    classifiers=[
         "Topic :: Software Development",
         "Framework :: Zope3",
         "Framework :: Zope :: 3",
@@ -35,7 +35,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8"
-    ),
+    ],
     keywords="zope3 mainloop",
     author="gocept gmbh & co. kg",
     author_email="mail@gocept.com",
@@ -47,7 +47,7 @@ setup(
     zip_safe=False,
     namespace_packages=['gocept'],
     install_requires=[
-        'ZODB3',
+        'ZODB',
         'decorator',
         'setuptools',
         'transaction',

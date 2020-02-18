@@ -4,7 +4,7 @@ Changes
 2.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Get rid of `ZODB3` dependency.
 
 
 2.1 (2019-12-02)

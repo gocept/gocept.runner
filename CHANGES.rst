@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.2 (unreleased)
+2.2 (2020-09-14)
 ----------------
 
 - Get rid of `ZODB3` dependency.

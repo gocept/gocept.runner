@@ -1,18 +1,19 @@
 # Copyright (c) 2008-2015 gocept gmbh & co. kg
 # See also LICENSE.txt
 """Infrastructure for running."""
-
 from __future__ import absolute_import
+
 import contextlib
-import ZODB.POSException
 import logging
 import signal
 import time
+
 import transaction
+import ZODB.POSException
 import zope.app.appsetup.product
-import zope.component.hooks
 import zope.app.wsgi
 import zope.authentication.interfaces
+import zope.component.hooks
 import zope.publisher.base
 import zope.security.management
 
@@ -103,7 +104,8 @@ class MainLoop(object):
     @property
     def principal(self):
         auth = zope.component.getUtility(
-            zope.authentication.interfaces.IAuthentication)
+            zope.authentication.interfaces.IAuthentication,
+        )
         return auth.getPrincipal(self.principal_id)
 
 
@@ -125,9 +127,11 @@ class appmain(object):
     def __call__(self, worker_method):
         def configure(appname, configfile):
             with init(appname, configfile) as app:
-                mloop = MainLoop(app, self.ticks, worker_method,
-                                 principal=self.get_principal(),
-                                 once=self.once)
+                mloop = MainLoop(
+                    app, self.ticks, worker_method,
+                    principal=self.get_principal(),
+                    once=self.once,
+                )
                 # XXX do we want more signal handlers?
                 signal.signal(signal.SIGHUP, mloop.stopMainLoop)
                 signal.signal(signal.SIGTERM, mloop.stopMainLoop)

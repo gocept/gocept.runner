@@ -1,5 +1,4 @@
 """Example to demonstrate how to create a "run" script."""
-
 import gocept.runner
 
 

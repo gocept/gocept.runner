@@ -1,5 +1,7 @@
 import os.path
-from setuptools import setup, find_packages
+
+from setuptools import find_packages
+from setuptools import setup
 
 
 def read(*names):
@@ -17,7 +19,7 @@ setup(
         read('src', 'gocept', 'runner', 'once.rst'),
         read('src', 'gocept', 'runner', 'README.rst'),
         read('src', 'gocept', 'runner', 'transaction.rst'),
-        read('CHANGES.rst')
+        read('CHANGES.rst'),
     ]),
     classifiers=[
         "Topic :: Software Development",
@@ -34,7 +36,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
-        "Programming Language :: Python :: 3.8"
+        "Programming Language :: Python :: 3.8",
     ],
     keywords="zope3 mainloop",
     author="gocept gmbh & co. kg",
@@ -67,8 +69,11 @@ setup(
             'zope.app.testing',
             'zope.app.zcmlfiles',
             'zope.securitypolicy',
-        ]),
+        ],
+    ),
     entry_points=dict(
         console_scripts=[
-            'runexample = gocept.runner.example:example'])
+            'runexample = gocept.runner.example:example',
+        ],
+    ),
 )

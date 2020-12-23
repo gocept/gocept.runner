@@ -1,7 +1,9 @@
 import doctest
-import gocept.runner.testing
 import unittest
+
 import zope.app.testing.functional
+
+import gocept.runner.testing
 
 
 flags = doctest.ELLIPSIS
@@ -12,14 +14,18 @@ def test_suite():
     test = zope.app.testing.functional.FunctionalDocFileSuite(
         'README.rst',
         package='gocept.runner',
-        optionflags=flags)
+        optionflags=flags,
+    )
     test.layer = gocept.runner.testing.layer
     suite.addTest(test)
 
-    suite.addTest(doctest.DocFileSuite(
-        'appmain.rst',
-        'once.rst',
-        package='gocept.runner',
-        optionflags=flags))
+    suite.addTest(
+        doctest.DocFileSuite(
+            'appmain.rst',
+            'once.rst',
+            package='gocept.runner',
+            optionflags=flags,
+        ),
+    )
 
     return suite

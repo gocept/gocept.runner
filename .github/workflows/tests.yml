@@ -42,7 +42,8 @@ jobs:
       run: tox -e ${{ matrix.config[1] }}
     - name: Upload Coverage
       run: |
-        pip3 install --upgrade coveralls
+        pip3 install setuptools
+        pip3 install coveralls
         coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

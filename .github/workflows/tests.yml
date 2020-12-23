@@ -41,7 +41,9 @@ jobs:
     - name: Test
       run: tox -e ${{ matrix.config[1] }}
     - name: Upload Coverage
-      run: coveralls
+      run: |
+        pip install coveralls
+        coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_FLAG_NAME: ${{ matrix.config[0] }}

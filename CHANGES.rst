@@ -4,7 +4,7 @@ Changes
 2.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Use github actions as CI.
 
 
 2.2 (2020-09-14)

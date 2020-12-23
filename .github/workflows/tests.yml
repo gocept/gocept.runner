@@ -41,6 +41,7 @@ jobs:
     - name: Test
       run: tox -e ${{ matrix.config[1] }}
     - name: Upload Coverage
+      if: matrix.config[1] != 'py27'
       run: |
         pip3 install setuptools
         pip3 install coveralls

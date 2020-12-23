@@ -10,7 +10,7 @@ on:
     - cron: '0 12 * * 0'  # run once a week on Sunday
 
 jobs:
-  build:
+  tests:
     strategy:
       matrix:
         config:
@@ -41,10 +41,18 @@ jobs:
         pip install tox
     - name: Test
       run: tox -e ${{ matrix.config[1] }}
-    - name: Coverage
-      if: matrix.config[1] == 'coverage'
-      run: |
-        pip install coveralls coverage-python-version
-        coveralls
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Coveralls Parallel
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        flag-name: run-${{ matrix.config[1] }}
+        parallel: true
+  coverage:
+    needs: tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true

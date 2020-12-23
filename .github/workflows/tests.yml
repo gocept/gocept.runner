@@ -42,12 +42,10 @@ jobs:
       run: tox -e ${{ matrix.config[1] }}
     - name: Upload Coverage
       run: |
-        pip install coveralls
+        pip3 install --upgrade coveralls
         coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        # We need this for PY2.
-        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_FLAG_NAME: ${{ matrix.config[0] }}
         COVERALLS_PARALLEL: true
   coveralls:

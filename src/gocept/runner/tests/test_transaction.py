@@ -1,12 +1,10 @@
 # Copyright (c) 2011 gocept gmbh & co. kg
 # See also LICENSE.txt
-import unittest
-
-import mock
-import ZODB.POSException
-
-import gocept.testing.assertion
 from gocept.runner import transaction_per_item
+import gocept.testing.assertion
+import mock
+import unittest
+import ZODB.POSException
 
 
 class TransactionPerItemTest(

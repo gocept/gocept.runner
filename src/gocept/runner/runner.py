@@ -2,12 +2,10 @@
 # See also LICENSE.txt
 """Infrastructure for running."""
 from __future__ import absolute_import
-
 import contextlib
 import logging
 import signal
 import time
-
 import transaction
 import ZODB.POSException
 import zope.app.appsetup.product

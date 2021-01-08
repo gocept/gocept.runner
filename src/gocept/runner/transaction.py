@@ -1,10 +1,8 @@
 # Copyright (c) 2011 gocept gmbh & co. kg
 # See also LICENSE.txt
 from __future__ import absolute_import
-
-import logging
-
 import decorator
+import logging
 import transaction
 import ZODB.POSException
 

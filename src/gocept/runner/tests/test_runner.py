@@ -1,10 +1,8 @@
 # Copyright (c) 2008-2011 gocept gmbh & co. kg
 # See also LICENSE.txt
-import unittest
-
-import zope.app.appsetup.product
-
 import gocept.runner
+import unittest
+import zope.app.appsetup.product
 
 
 class TestFromConfig(unittest.TestCase):

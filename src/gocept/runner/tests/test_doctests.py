@@ -1,9 +1,7 @@
 import doctest
-import unittest
-
-import zope.app.testing.functional
-
 import gocept.runner.testing
+import unittest
+import zope.app.testing.functional
 
 
 flags = doctest.ELLIPSIS

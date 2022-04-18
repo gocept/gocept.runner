@@ -1,7 +1,7 @@
 ---
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.1.0
+      rev: v4.2.0
       hooks:
           - id: trailing-whitespace
           - id: end-of-file-fixer
@@ -27,7 +27,7 @@ repos:
         args: [--filter-files]
         files: \.py$
     - repo: https://github.com/asottile/add-trailing-comma
-      rev: v2.2.2
+      rev: v2.2.3
       hooks:
           - id: add-trailing-comma
             # Should be activated if we are Python 3 only. PY3

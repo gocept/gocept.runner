@@ -1,7 +1,7 @@
 Changes
 =======
 
-2.3 (unreleased)
+3.0 (unreleased)
 ----------------
 
 - Use github actions as CI.

@@ -4,9 +4,9 @@ Changes
 3.0 (unreleased)
 ----------------
 
-- Drop support for Python 2.7, 3.5, 3.6.
+- Drop support for Python 2.7.
 
-- Use github actions as CI.
+- Add support for Python 3.9, 3.10, 3.11.
 
 
 2.2 (2020-09-14)

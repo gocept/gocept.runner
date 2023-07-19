@@ -110,19 +110,13 @@ a script to a temporary file:
 Call the script and wait for it to produce some output:
 
 >>> import signal
->>> import six
 >>> import subprocess
 >>> import time
 >>> exchange = os.fdopen(exchange_fd, 'r+')
->>> if six.PY2:
-...     proc = subprocess.Popen(
-...         [sys.executable, script_name],
-...         stdout=subprocess.PIPE)
-... else:
-...     proc = subprocess.Popen(
-...         [sys.executable, script_name],
-...         stdout=subprocess.PIPE,
-...         text=True)
+>>> proc = subprocess.Popen(
+...     [sys.executable, script_name],
+...     stdout=subprocess.PIPE,
+...     text=True)
 >>> while not exchange.read():
 ...     time.sleep(0.1)
 ...     _ = exchange.seek(0, 0)
@@ -146,15 +140,10 @@ it was terminated:
 This also works with SIGHUP:
 
 >>> _ = exchange.truncate(0)
->>> if six.PY2:
-...     proc = subprocess.Popen(
-...         [sys.executable, script_name],
-...         stdout=subprocess.PIPE)
-... else:
-...     proc = subprocess.Popen(
-...         [sys.executable, script_name],
-...         stdout=subprocess.PIPE,
-...         text=True)
+>>> proc = subprocess.Popen(
+...     [sys.executable, script_name],
+...     stdout=subprocess.PIPE,
+...     text=True)
 >>> while not exchange.read():
 ...     time.sleep(0.1)
 ...     _ = exchange.seek(0, 0)

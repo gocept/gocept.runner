@@ -4,12 +4,12 @@ import os.path
 
 
 def read(*names):
-    return open(os.path.join(os.path.dirname(__file__), *names), 'r').read()
+    return open(os.path.join(os.path.dirname(__file__), *names)).read()
 
 
 setup(
     name='gocept.runner',
-    version='2.3.dev0',
+    version='3.0.dev0',
     description="Create stand alone programs with full Zope3 runtime"
                 " environment",
     long_description="\n\n".join([
@@ -22,7 +22,6 @@ setup(
     ]),
     classifiers=[
         "Topic :: Software Development",
-        "Framework :: Zope3",
         "Framework :: Zope :: 3",
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",
@@ -31,11 +30,12 @@ setup(
         "Natural Language :: English",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     keywords="zope3 mainloop",
     author="gocept gmbh & co. kg",
@@ -47,6 +47,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     namespace_packages=['gocept'],
+    python_requires='>=3.7',
     install_requires=[
         'ZODB',
         'decorator',

@@ -1,7 +1,6 @@
 # Copyright (c) 2008-2015 gocept gmbh & co. kg
 # See also LICENSE.txt
 """Infrastructure for running."""
-from __future__ import absolute_import
 import contextlib
 import logging
 import signal
@@ -26,10 +25,10 @@ class RunnerRequest(zope.publisher.base.BaseRequest):
     """A custom publisher request for the runner."""
 
     def __init__(self, *args):
-        super(RunnerRequest, self).__init__(None, {}, positional=args)
+        super().__init__(None, {}, positional=args)
 
 
-class MainLoop(object):
+class MainLoop:
 
     def __init__(self, app, ticks, worker, principal=None, once=False):
         self._is_running = False
@@ -107,7 +106,7 @@ class MainLoop(object):
         return auth.getPrincipal(self.principal_id)
 
 
-class appmain(object):
+class appmain:
     """Decorator to simplify the actual entry point functions for main loops.
     """
 
@@ -142,7 +141,7 @@ class appmain(object):
 class once(appmain):
 
     def __init__(self, principal=None):
-        super(once, self).__init__(principal=principal)
+        super().__init__(principal=principal)
         self.once = True
 
 

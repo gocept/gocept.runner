@@ -100,7 +100,7 @@ The worker function can control the sleep time.
 
 Register a log handler so we can observe this:
 
->>> from six import StringIO
+>>> from io import StringIO
 >>> import logging
 >>> log = StringIO()
 >>> log_handler = logging.StreamHandler(log)

@@ -11,7 +11,7 @@ repos:
           - id: debug-statements
             language_version: python3
     - repo: https://github.com/PyCQA/flake8
-      rev: 6.0.0
+      rev: 6.1.0
       hooks:
           - id: flake8
             language_version: python3
@@ -27,7 +27,7 @@ repos:
         args: [--filter-files]
         files: \.py$
     - repo: https://github.com/asottile/add-trailing-comma
-      rev: v3.0.0
+      rev: v3.0.1
       hooks:
           - id: add-trailing-comma
             # Should be activated if we are Python 3 only. PY3

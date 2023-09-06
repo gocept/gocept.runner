@@ -16,7 +16,7 @@ repos:
           - id: flake8
             language_version: python3
             additional_dependencies: [flake8-typing-imports==1.14.0]
-    - repo: https://github.com/pre-commit/mirrors-autopep8
+    - repo: https://github.com/hhatto/autopep8
       rev: v2.0.4
       hooks:
           - id: autopep8
@@ -27,7 +27,7 @@ repos:
         args: [--filter-files]
         files: \.py$
     - repo: https://github.com/asottile/add-trailing-comma
-      rev: v3.0.1
+      rev: v3.1.0
       hooks:
           - id: add-trailing-comma
             # Should be activated if we are Python 3 only. PY3
